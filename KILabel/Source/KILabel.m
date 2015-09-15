@@ -324,8 +324,14 @@ NSString * const KILabelLinkKey = @"link";
 // These are styles that are only applied when NOT using the attributedText directly.
 - (NSDictionary *)attributesFromProperties
 {
+    // Setup font
+    UIFont *font = [UIFont systemFontOfSize:[UIFont systemFontSize]];
+    if (self.font) {
+        font = self.font;
+    }
+    
     // Setup shadow attributes
-    NSShadow *shadow = shadow = [[NSShadow alloc] init];
+    NSShadow *shadow = [[NSShadow alloc] init];
     if (self.shadowColor)
     {
         shadow.shadowColor = self.shadowColor;
@@ -334,6 +340,7 @@ NSString * const KILabelLinkKey = @"link";
     else
     {
         shadow.shadowOffset = CGSizeMake(0, -1);
+        shadow.shadowColor = nil;
     }
     
     // Setup color attributes
@@ -352,7 +359,7 @@ NSString * const KILabelLinkKey = @"link";
     paragraph.alignment = self.textAlignment;
     
     // Create the dictionary
-    NSDictionary *attributes = @{NSFontAttributeName : self.font,
+    NSDictionary *attributes = @{NSFontAttributeName : font,
                                  NSForegroundColorAttributeName : color,
                                  NSShadowAttributeName : shadow,
                                  NSParagraphStyleAttributeName : paragraph,
